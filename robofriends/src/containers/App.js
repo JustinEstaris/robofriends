@@ -1,6 +1,7 @@
-import React, {Component} from "react";
-import CardList from "./CardList";
-import SearchBox from './SearchBox';
+import React, { Component } from "react";
+import CardList from "../components/CardList";
+import SearchBox from '../components/SearchBox';
+import Scroll from '../components/Scroll';
 import './App.css'
 
 class App extends Component {
@@ -23,29 +24,32 @@ class App extends Component {
 
     // New function when we're using the SearchBox component. Changes the state when there is new input.
     onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value }); 
+        this.setState({ searchfield: event.target.value });
     }
 
     render() {
+        const { robots, searchfield } = this.state
         // Filter the robots array to only include the search field name.
-        const filteredRobots = this.state.robots.filter(robot => {
-            return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        const filteredRobots = robots.filter(robot => {
+            return robot.name.toLowerCase().includes(searchfield.toLowerCase());
         })
 
-        // Adding in a loading screen
-        if (this.state.robots.length === 0) {
-            return <h1>Loading</h1>
-            
-        // If we have robots in the array.
-        } else {
-            return (
+        // Adding in a loading screen via ternary operator.
+        return !robots.length ?
+
+            // If there's no robots
+            <h1>Loading</h1> :
+
+            // If we have robots in the array.
+            (
                 <div className='tc'>
                     <h1 className='f1'> RoboFriends</h1>
                     <SearchBox searchChange={this.onSearchChange} /> {/** Send the function as a prop to the component */}
-                    <CardList robots={filteredRobots} /> {/** Send the filtered data as a prop (pure functions) */}
+                    <Scroll>
+                        <CardList robots={filteredRobots} /> {/** Send the filtered data as a prop (pure functions) */}
+                    </Scroll>
                 </div>
             );
-        }
     }
 }
 

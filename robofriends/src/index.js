@@ -1,7 +1,7 @@
 import React from 'react'; // View library (Core Package)
 import ReactDOM from 'react-dom/client';  // Used to access the browser DOM.
 import './index.css';
-import App from './App';
+import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
 import 'tachyons'; // Import the tachyons package.
 
